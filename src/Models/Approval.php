@@ -17,6 +17,17 @@ class Approval extends Model
     }
 
     /**
+    * Get the item that is the subject of the approval changes.
+    *
+    * @return integer
+    */
+    public function item()
+    {
+        return $this->approvables()
+                    ->wherePivot('is_approver', false);
+    }
+
+    /**
     * Get all of the approval's relations where the they are an approver
     * and the approver approved.
     *
