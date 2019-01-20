@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Approvals Required
+    | Approvers Required
     |--------------------------------------------------------------------------
     |
     | This value is the default number of approvers required to approve an
@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'approvalsRequired' => 2,
+    'approversRequired' => 2,
 
     /*
     |--------------------------------------------------------------------------
