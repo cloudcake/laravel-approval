@@ -55,8 +55,8 @@ trait RequiresApproval
     public static function bootRequiresApproval()
     {
         static::updating(function ($item) {
-            if ($item->requiresApprovalWhen($item->getChanges())) {
-              // Create approval
+            if ($item->requiresApprovalWhen($item->getChanges()) === true) {
+                // Create approval
             }
         });
     }
