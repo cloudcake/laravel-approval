@@ -6,6 +6,6 @@ return [
 
     'updateWhenApproved' => true,
 
-    'deleteDisapprovedt' => true,
+    'deleteDisapproved'  => true,
 
 ];
