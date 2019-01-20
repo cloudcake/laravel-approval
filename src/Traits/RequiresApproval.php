@@ -56,7 +56,14 @@ trait RequiresApproval
     {
         static::updating(function ($item) {
             if ($item->requiresApprovalWhen($item->getChanges()) === true) {
-                // Create approval
+                $approval = new \Approval\Models\Approval();
+                $approval->is_open = true;
+                $approval->modifications = $item->getChanges();
+                $approval->save();
+
+                $item->approvals()->attach($approval);
+
+                return false;
             }
         });
     }
