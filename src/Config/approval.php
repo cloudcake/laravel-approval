@@ -30,7 +30,6 @@ return [
 
     'updateWhenApproved' => true,
 
-
     /*
     |--------------------------------------------------------------------------
     | Delete Disapproved Approvals
