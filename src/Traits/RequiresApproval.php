@@ -8,25 +8,59 @@ trait RequiresApproval
     * Number of approvers this model requires in order
     * to mark the modifications as accepted.
     *
-    * Default: 2
-    *
     * This setting overrides the configuration file setting.
     *
-    * @var integer
+    * @var integer|null
     */
-    protected $approversRequired = 2;
+    protected $approversRequired = null;
 
     /**
     * Boolean to mark whether or not this model should be updated
     * automatically upon receiving the required number of approvals.
     *
-    * Default: true
+    * This setting overrides the configuration file setting.
+    *
+    * @var boolean|null
+    */
+    protected $updateWhenApproved = null;
+
+
+    /**
+    * Boolean to mark whether or not the approval model should be deleted
+    * automatically when the approval is disapproved wtih the required number
+    * of disapprovals.
     *
     * This setting overrides the configuration file setting.
     *
-    * @var boolean
+    * @var boolean|null
     */
-    protected $updateWhenApproved = true;
+    protected $deleteWhenDisapproved = null;
+
+    /**
+    * Boolean to mark whether or not the approval model should be deleted
+    * automatically when the approval is approved wtih the required number
+    * of approvals.
+    *
+    * This setting overrides the configuration file setting.
+    *
+    * @var boolean|null
+    */
+    protected $deleteWhenApproved = null;
+
+
+    /**
+    * Boot the RequiresApproval trait. Listen for events and perform logic.
+    *
+    */
+    public static function bootRequiresApproval()
+    {
+        static::updating(function ($item) {
+            if ($item->requiresApprovalWhen($item->getChanges())) {
+              // Create approval
+            }
+        });
+    }
+
 
     /**
     * Function that defines the rule of when an approval process
