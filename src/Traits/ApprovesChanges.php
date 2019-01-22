@@ -54,6 +54,12 @@ trait ApprovesChanges
                 'modification_id' => $modification->id
             ]);
 
+            $modification->fresh();
+
+            if ($modification->approversRemaining == 0) {
+                $modification->modifiable->applyModificationChanges($modification, true);
+            }
+
             return true;
         }
 
@@ -85,6 +91,12 @@ trait ApprovesChanges
                 'disapprover_type' => get_class(),
                 'modification_id'  => $modification->id
             ]);
+
+            $modification->fresh();
+
+            if ($modification->disapproversRemaining == 0) {
+                $modification->modifiable->applyModificationChanges($modification, false);
+            }
 
             return true;
         }
