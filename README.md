@@ -7,3 +7,21 @@
 </h6>
 
 <br><br>
+
+# Laravel Approval
+
+**Laravel Approval** allows any model to be attached to an approval process. Any configured models (plural, not just the user/auth model) can approve and disapprove changes based on a provided authorize method.
+
+Made with ❤️ by [Stephen Lake](http://stephenlake.github.io/)
+
+## Getting Started
+
+Install the package via composer.
+
+    composer require stephenlake/laravel-approval
+
+#### See [documentation](https://stephenlake.github.io/laravel-approval/) for usage.
+
+## License
+
+This library is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
