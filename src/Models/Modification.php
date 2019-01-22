@@ -23,7 +23,7 @@ class Modification extends Model
     ];
 
     /**
-    * Get models that the modification belogns to.
+    * Get models that the modification belongs to.
     *
     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
     */

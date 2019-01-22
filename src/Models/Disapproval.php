@@ -14,6 +14,16 @@ class Disapproval extends Model
     protected $guarded = ['id'];
 
     /**
+    * Get models that the disapproval belongs to.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+    */
+    public function disapprover()
+    {
+        return $this->morphTo();
+    }
+
+    /**
     * Return Modification relation via direct relation.
     *
     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

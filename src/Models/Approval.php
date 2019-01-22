@@ -14,6 +14,16 @@ class Approval extends Model
     protected $guarded = ['id'];
 
     /**
+    * Get models that the approval belongs to.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+    */
+    public function approver()
+    {
+        return $this->morphTo();
+    }
+
+    /**
     * Return Modification relation via direct relation.
     *
     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
