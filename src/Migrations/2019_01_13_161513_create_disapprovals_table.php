@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateApprovablesTable extends Migration
+class CreateDisapprovalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateApprovablesTable extends Migration
      */
     public function up()
     {
-        Schema::create('approvables', function (Blueprint $table) {
-            $table->integer('approval_id');
-            $table->integer('approvable_id');
-            $table->string('approvable_type');
-            $table->boolean('is_approver')->default(false);
-            $table->boolean('approved')->default(false);
+        Schema::create('disapprovals', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('modification_id');
+            $table->integer('disapprover_id');
+            $table->string('disapprover_type');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -31,6 +30,6 @@ class CreateApprovablesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('approvables');
+        Schema::dropIfExists('disapprovals');
     }
 }

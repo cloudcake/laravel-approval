@@ -15,8 +15,9 @@ class CreateApprovalsTable extends Migration
     {
         Schema::create('approvals', function (Blueprint $table) {
             $table->increments('id');
-            $table->boolean('is_open')->default(true);
-            $table->json('modifications');
+            $table->integer('modification_id');
+            $table->integer('approver_id');
+            $table->string('approver_type');
             $table->timestamps();
             $table->softDeletes();
         });

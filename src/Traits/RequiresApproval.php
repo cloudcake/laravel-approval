@@ -8,44 +8,43 @@ trait RequiresApproval
     * Number of approvers this model requires in order
     * to mark the modifications as accepted.
     *
-    * This setting overrides the configuration file setting.
-    *
-    * @var integer|null
+    * @var integer
     */
-    protected $approversRequired = null;
+    protected $approversRequired = 1;
+
+    /**
+    * Number of disapprovers this model requires in order
+    * to mark the modifications as rejected.
+    *
+    * @var integer
+    */
+    protected $disapproversRequired = 1;
 
     /**
     * Boolean to mark whether or not this model should be updated
     * automatically upon receiving the required number of approvals.
     *
-    * This setting overrides the configuration file setting.
-    *
-    * @var boolean|null
+    * @var boolean
     */
-    protected $updateWhenApproved = null;
-
+    protected $updateWhenApproved = true;
 
     /**
     * Boolean to mark whether or not the approval model should be deleted
     * automatically when the approval is disapproved wtih the required number
     * of disapprovals.
     *
-    * This setting overrides the configuration file setting.
-    *
-    * @var boolean|null
+    * @var boolean
     */
-    protected $deleteWhenDisapproved = null;
+    protected $deleteWhenDisapproved = false;
 
     /**
     * Boolean to mark whether or not the approval model should be deleted
     * automatically when the approval is approved wtih the required number
     * of approvals.
     *
-    * This setting overrides the configuration file setting.
-    *
-    * @var boolean|null
+    * @var boolean
     */
-    protected $deleteWhenApproved = null;
+    protected $deleteWhenApproved = true;
 
 
     /**
@@ -55,13 +54,24 @@ trait RequiresApproval
     public static function bootRequiresApproval()
     {
         static::updating(function ($item) {
-            if ($item->requiresApprovalWhen($item->getChanges()) === true) {
-                $approval = new \Approval\Models\Approval();
-                $approval->is_open = true;
-                $approval->modifications = $item->getChanges();
-                $approval->save();
+            if ($item->requiresApprovalWhen($item->getDirty()) === true) {
+                $diff = collect($item->getDirty())
+                        ->transform(function ($change, $key) use ($item) {
+                            return [
+                              'original' => $item->getOriginal($key),
+                              'modified' => $item->$key,
+                            ];
+                        })
+                        ->all();
 
-                $item->approvals()->attach($approval);
+                $modification = new \Approval\Models\Modification();
+                $modification->active = true;
+                $modification->modifications = $diff;
+                $modification->approvers_required = $item->approversRequired;
+                $modification->disapprovers_required = $item->disapproversRequired;
+                $modification->save();
+
+                $item->modifications()->save($modification);
 
                 return false;
             }
@@ -76,18 +86,18 @@ trait RequiresApproval
     * @param array $modifications
     * @return boolean
     */
-    protected function requiresApprovalsWhen($modifications) : boolean
+    protected function requiresApprovalWhen($modifications) : bool
     {
         return true;
     }
 
     /**
-    * Return Approval relations via moprhMany.
+    * Return Modification relations via moprhMany.
     *
     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
     */
-    public function approvals()
+    public function modifications()
     {
-        return $this->morphMany(\Approvals\Models\Approval::class, 'approvable');
+        return $this->morphMany(\Approval\Models\Modification::class, 'modifiable');
     }
 }
