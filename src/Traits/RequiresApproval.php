@@ -54,7 +54,7 @@ trait RequiresApproval
     public static function bootRequiresApproval()
     {
         static::updating(function ($item) {
-            if ($item->requiresApprovalWhen($item->getDirty()) === true) {
+            if (!isset($item->forcedApprovalUpdate) && $item->requiresApprovalWhen($item->getDirty()) === true) {
                 $diff = collect($item->getDirty())
                         ->transform(function ($change, $key) use ($item) {
                             return [
@@ -64,17 +64,31 @@ trait RequiresApproval
                         })
                         ->all();
 
+                $modifier = $item->modifier();
+
                 $modification = new \Approval\Models\Modification();
                 $modification->active = true;
                 $modification->modifications = $diff;
                 $modification->approvers_required = $item->approversRequired;
                 $modification->disapprovers_required = $item->disapproversRequired;
+
+                if ($modifier && ($modifierClass = get_class($modifier))) {
+                    $modifierInstance = new $modifierClass();
+
+                    $modification->modifier_id = $modifier->{$modifierInstance->getKeyName()};
+                    $modification->modifier_type = $modifierClass;
+                }
+
                 $modification->save();
 
                 $item->modifications()->save($modification);
 
                 return false;
             }
+
+            unset($item->forcedApprovalUpdate);
+
+            return true;
         });
     }
 
@@ -99,5 +113,47 @@ trait RequiresApproval
     public function modifications()
     {
         return $this->morphMany(\Approval\Models\Modification::class, 'modifiable');
+    }
+
+    /**
+    * Returns the model that should be used as the modifier of the modified model.
+    *
+    * @return mixed
+    */
+    protected function modifier()
+    {
+        return auth()->user();
+    }
+
+    /**
+    * Apply modification to model.
+    *
+    * @return void
+    */
+    public function applyModificationChanges(\Approval\Models\Modification $modification, bool $approved)
+    {
+        if ($approved && $this->updateWhenApproved) {
+            $this->forcedApprovalUpdate = true;
+
+            foreach ($modification->modifications as $key => $mod) {
+                $this->{$key} = $mod['modified'];
+            }
+
+            $this->save();
+
+            if ($this->deleteWhenApproved) {
+                $modification->delete();
+            } else {
+                $modification->active = false;
+                $modification->save();
+            }
+        } elseif ($approved == false) {
+            if ($this->deleteWhenDispproved) {
+                $modification->delete();
+            } else {
+                $modification->active = false;
+                $modification->save();
+            }
+        }
     }
 }
