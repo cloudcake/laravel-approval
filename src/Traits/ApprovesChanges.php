@@ -8,7 +8,7 @@ trait ApprovesChanges
     * Defines if this model is allowed to cast their approval
     * should be actioned for this model.
     *
-    * @param \Approval\Models\Approval $modifications
+    * @param \Approval\Models\Modification $modification
     * @return boolean
     */
     protected function authorizedToApprove(\Approval\Models\Modification $modification) : bool
@@ -20,7 +20,7 @@ trait ApprovesChanges
     * Defines if this model is allowed to cast their disapproval
     * should be actioned for this model.
     *
-    * @param \Approval\Models\Approval $modifications
+    * @param \Approval\Models\Modification $modification
     * @return boolean
     */
     protected function authorizedToDisapprove(\Approval\Models\Modification $modification) : bool
@@ -31,7 +31,7 @@ trait ApprovesChanges
     /**
     * Approve a modification.
     *
-    * @param \Approval\Models\Modification $modifications
+    * @param \Approval\Models\Modification $modification
     * @return bool
     */
     public function approve(\Approval\Models\Modification $modification) : bool
@@ -63,7 +63,7 @@ trait ApprovesChanges
     /**
     * Disapprove a modification.
     *
-    * @param \Approval\Models\Modification $modifications
+    * @param \Approval\Models\Modification $modification
     * @return bool
     */
     public function disapprove(\Approval\Models\Modification $modification) : bool

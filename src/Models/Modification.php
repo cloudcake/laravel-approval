@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Modification extends Model
 {
+    /**
+    * The attributes that can't be filled.
+    *
+    * @var array
+    */
     protected $guarded = ['id'];
 
     /**
@@ -17,16 +22,31 @@ class Modification extends Model
         'modifications' => 'json'
     ];
 
+    /**
+    * Get models that the modification belogns to.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+    */
     public function modifiable()
     {
         return $this->morphTo();
     }
 
+    /**
+    * Return Approval relations via direct relation.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
     public function approvals()
     {
         return $this->hasMany(\Approval\Models\Approval::class);
     }
 
+    /**
+    * Return Disapproval relations via direct relation.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
     public function disapprovals()
     {
         return $this->hasMany(\Approval\Models\Disapproval::class);
