@@ -33,6 +33,16 @@ class Modification extends Model
     }
 
     /**
+    * Get models that the ignited this modification.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+    */
+    public function modifier()
+    {
+        return $this->morphTo();
+    }
+
+    /**
     * Return Approval relations via direct relation.
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
