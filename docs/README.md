@@ -274,7 +274,7 @@ $remaining    = $modification->disapproversRemaining;
 ```php
 $post         = Post::find(1);
 $modification = $post->modifications()->first();
-$remaining    = $modification->forceApprovalUpdate();
+$modification->forceApprovalUpdate();
 ```
 
 # TODO
