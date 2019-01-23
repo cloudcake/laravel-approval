@@ -280,6 +280,4 @@ $modification->forceApprovalUpdate();
 ```
 
 # TODO
-
--   Prevent duplicate modification approvals being made where the changes are exactly the same
 -   Add unit tests
