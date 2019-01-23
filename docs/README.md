@@ -157,7 +157,7 @@ class Admin extends Model
         return true;
     }
 
-    protected function authorizedToDispprove(\Approval\Models\Modification $mod) : bool
+    protected function authorizedToDisapprove(\Approval\Models\Modification $mod) : bool
     {
         // Return true to authorize disapproval, false to deny
         return true;
