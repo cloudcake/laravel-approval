@@ -22,6 +22,7 @@ class CreateModificationsTable extends Migration
             $table->boolean('active')->default(true);
             $table->integer('approvers_required')->default(1);
             $table->integer('disapprovers_required')->default(1);
+            $table->string('md5');
             $table->json('modifications');
             $table->timestamps();
             $table->softDeletes();
