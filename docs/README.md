@@ -20,9 +20,12 @@ This package makes use of Laravel's auto-discovery of service providers. If you 
 
 Add `Approval\ApprovalServiceProvider::class` to the `providers` array in `config/app.php`.
 
+## Run migrations
+Run the Approval migrations with `php artisan migrate`.
+
 That's it. See the usage section for examples.
 
-# Usage
+# Setting Up
 
 ## Setup approval model(s)
 Any model you wish to attach to an approval process simply requires the `RequiresApproval` trait, for example:
@@ -244,3 +247,35 @@ class Admin extends Model
     }
 }
 ```
+
+# Usage
+
+## Retrieving Pending Modifications
+Any model that contains the `RequiresApproval` trait may have multiple pending modifications, to access these modifications you can call the `modifications()` method on the approval model:
+
+```php
+$post = Post::find(1);
+$post->modifications()->get();
+```
+
+## Retrieving Modification Creator
+For any pending modifications on a model, you may fetch the model that initiated the modification request:
+
+```php
+$post = Post::find(1);
+$post->modifications()->first()->modifier();
+```
+This (modifier) would usually be a user that changed the model and triggered the approval modification, but because Approval caters for more than just users, it's possible that the creator is any other model.
+
+## Adding an Approval
+TBD
+
+## Adding a Disapproval
+TBD
+
+## Forcing approval
+TBD
+
+# TODO
+- Prevent duplicate modification approvals being made where the changes are exactly the same
+- Add unit tests
