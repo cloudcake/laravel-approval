@@ -113,4 +113,26 @@ class Modification extends Model
     {
         $this->modifiable->applyModificationChanges($modification, true);
     }
+
+    /**
+    * Scope a query to only include active modifications.
+    *
+    * @param \Illuminate\Database\Eloquent\Builder $query
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
+    public function scopeActiveOnly($query)
+    {
+        return $query->where('active', true);
+    }
+
+    /**
+    * Scope a query to only include inactive modifications.
+    *
+    * @param \Illuminate\Database\Eloquent\Builder $query
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
+    public function scopeInactiveOnly($query)
+    {
+        return $query->where('active', false);
+    }
 }
