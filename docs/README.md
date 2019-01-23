@@ -208,7 +208,7 @@ $approver->approve($modification);
 $modification = Post::find(1)->modifications()->first();
 
 $approver = Admin::first();
-$approver->approve($modification);
+$approver->disapprove($modification);
 ```
 
 ## Retrieving Pending Modifications
