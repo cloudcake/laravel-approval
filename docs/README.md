@@ -273,6 +273,24 @@ TBD
 ## Adding a Disapproval
 TBD
 
+## Retrieving Approvals
+TBD
+
+### Retrieving Approval Author
+TBD
+
+## Retrieving Disapprovals
+TBD
+
+### Retrieving Disapproval Author
+TBD
+
+## Retrieving Remaining Required Approvals
+TBD
+
+## Retrieving Remaining Required Disapprovals
+TBD
+
 ## Forcing approval
 TBD
 
