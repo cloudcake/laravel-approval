@@ -194,7 +194,13 @@ $post->modifications()->first()->modifier();
 
 This (modifier) would usually be a user that changed the model and triggered the approval modification, but because Approval caters for more than just users, it's possible that the creator is any other model.
 
-## Adding an Approval
+## Retrieving A Models Modifications
+
+```php
+$modifications = Post::find(1)->modifications()->whereActive(true)->get();
+```
+
+## Adding a Modification Approval
 
 ```php
 $modification = Post::find(1)->modifications()->first();
@@ -203,7 +209,7 @@ $approver = Admin::first();
 $approver->approve($modification);
 ```
 
-## Adding a Disapproval
+## Adding a  Modification Disapproval
 ```php
 $modification = Post::find(1)->modifications()->first();
 
@@ -211,13 +217,7 @@ $approver = Admin::first();
 $approver->disapprove($modification);
 ```
 
-## Retrieving Pending Modifications
-
-```php
-$modifications = Post::find(1)->modifications()->whereActive(true)->get();
-```
-
-## Retrieving Approvals
+## Retrieving Modification Approvals
 
 ```php
 $post         = Post::find(1);
@@ -234,7 +234,7 @@ $approval     = $modification->approvals()->get();
 $author       = $approval->approver();
 ```
 
-## Retrieving Disapprovals
+## Retrieving Modification Disapprovals
 
 ```php
 $post         = Post::find(1);
@@ -252,7 +252,7 @@ $author       = $approval->disapprover();
 ```
 
 
-## Retrieving Remaining Required Approvals
+## Retrieving Remaining Required Modification Approvals
 
 ```php
 $post         = Post::find(1);
@@ -260,7 +260,7 @@ $modification = $post->modifications()->first();
 $remaining    = $modification->approversRemaining;
 ```
 
-## Retrieving Remaining Required Disapprovals
+## Retrieving Remaining Required Modification Disapprovals
 
 ```php
 $post         = Post::find(1);
@@ -269,7 +269,7 @@ $remaining    = $modification->disapproversRemaining;
 ```
 
 
-## Forcing approval
+## Forcing Modification Updates
 
 ```php
 $post         = Post::find(1);
