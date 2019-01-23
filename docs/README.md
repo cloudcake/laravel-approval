@@ -23,8 +23,6 @@ Add `Approval\ApprovalServiceProvider::class` to the `providers` array in `confi
 ## Run migrations
 Run the Approval migrations with `php artisan migrate`.
 
-That's it. See the usage section for examples.
-
 # Setting Up
 
 ## Setup approval model(s)
@@ -276,13 +274,13 @@ TBD
 ## Retrieving Approvals
 TBD
 
-### Retrieving Approval Author
+## Retrieving Approval Author
 TBD
 
 ## Retrieving Disapprovals
 TBD
 
-### Retrieving Disapproval Author
+## Retrieving Disapproval Author
 TBD
 
 ## Retrieving Remaining Required Approvals
