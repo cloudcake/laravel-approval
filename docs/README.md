@@ -25,7 +25,7 @@ Run the Approval migrations with `php artisan migrate`.
 
 # Setting Up
 
-## Setup approval model(s)
+## Setup Approval Model(s)
 Any model you wish to attach to an approval process simply requires the `RequiresApproval` trait, for example:
 
 ```php
@@ -105,7 +105,7 @@ protected $deleteWhenDisapproved = false;
 protected $deleteWhenApproved = true;
 ```
 
-## Setup approver model(s)
+## Setup Approver Model(s)
 Any other model (not just a user model) can approve models by simply adding the `ApprovesChanges` trait to it, for example:
 
 ```php
