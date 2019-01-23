@@ -103,4 +103,14 @@ class Modification extends Model
     {
         return $this->disapproversRemaining;
     }
+
+    /**
+    * Force apply changes to modifiable.
+    *
+    * @return void
+    */
+    public function forceApprovalUpdate()
+    {
+        $this->modifiable->applyModificationChanges($modification, true);
+    }
 }
