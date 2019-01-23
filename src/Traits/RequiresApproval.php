@@ -64,13 +64,19 @@ trait RequiresApproval
                         })
                         ->all();
 
+                $hasModificationPending = $item->modifications()
+                                               ->activeOnly()
+                                               ->where('md5', md5(json_encode($diff)))
+                                               ->first();
+
                 $modifier = $item->modifier();
 
-                $modification = new \Approval\Models\Modification();
+                $modification = $hasModificationPending ?? new \Approval\Models\Modification();
                 $modification->active = true;
                 $modification->modifications = $diff;
                 $modification->approvers_required = $item->approversRequired;
                 $modification->disapprovers_required = $item->disapproversRequired;
+                $modification->md5 = md5(json_encode($diff));
 
                 if ($modifier && ($modifierClass = get_class($modifier))) {
                     $modifierInstance = new $modifierClass();
@@ -81,7 +87,9 @@ trait RequiresApproval
 
                 $modification->save();
 
-                $item->modifications()->save($modification);
+                if (!$hasModificationPending) {
+                    $item->modifications()->save($modification);
+                }
 
                 return false;
             }
