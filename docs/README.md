@@ -30,6 +30,8 @@ WORK IN PROGRESS!
 Any model you wish to attach to an approval process simply requires the `RequiresApproval` trait, for example:
 
 ```php
+<?php
+
 use Approval\Traits\RequiresApproval;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,6 +46,8 @@ Once added, by default any updates made to the model will have to be approved by
 Any other model (not just a user model) can approve models by simply adding the `ApprovesChanges` trait to it, for example:
 
 ```php
+<?php
+
 use Approval\Traits\ApprovesChanges;
 use Illuminate\Database\Eloquent\Model;
 
@@ -59,6 +63,8 @@ By default, any model with the `ApprovesChanges` trait will be able to approve a
 
 
 ```php
+<?php
+
 use Approval\Traits\ApprovesChanges;
 use Illuminate\Database\Eloquent\Model;
 
@@ -66,7 +72,7 @@ class Admin extends Model
 {
     use ApprovesChanges;
 
-    protected function authorizedToApprove(\Approval\Models\Modification $modification) : bool
+    protected function authorizedToApprove(\Approval\Models\Modification $mod) : bool
     {
         // Return true to authorize approval, false to deny
         return true;
@@ -79,6 +85,8 @@ class Admin extends Model
 Similarly to the approval process, the disapproval authorization method for disapproving modifications follows the same logic:
 
 ```php
+<?php
+
 use Approval\Traits\ApprovesChanges;
 use Illuminate\Database\Eloquent\Model;
 
@@ -86,13 +94,13 @@ class Admin extends Model
 {
     use ApprovesChanges;
 
-    protected function authorizedToApprove(\Approval\Models\Modification $modification) : bool
+    protected function authorizedToApprove(\Approval\Models\Modification $mod) : bool
     {
         // Return true to authorize approval, false to deny
         return true;
     }
 
-    protected function authorizedToDispprove(\Approval\Models\Modification $modification) : bool
+    protected function authorizedToDispprove(\Approval\Models\Modification $mod) : bool
     {
         // Return true to authorize disapproval, false to deny
         return true;
