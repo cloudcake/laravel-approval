@@ -21,11 +21,13 @@ This package makes use of Laravel's auto-discovery. If you are an using earlier 
 Add `Approval\ApprovalServiceProvider::class` to the `providers` array in `config/app.php`.
 
 ## Run migrations
+
 Run the Approval migrations with `php artisan migrate`.
 
 # Setting Up
 
 ## Setup Approval Model(s)
+
 Any model you wish to attach to an approval process simply requires the `RequiresApproval` trait, for example:
 
 ```php
@@ -37,9 +39,11 @@ class Post extends Model
     use RequiresApproval;
 }
 ```
+
 Once added, by default any updates made to the model will have to be approved by at least 1 approver for the modifications to be actioned.
 
 ### Conditional Approvals
+
 There may be instances where you don't always want your model to go through an approval process, for this reason the the `requiresApprovalWhen` is available for your convenience:
 
 ```php
@@ -59,6 +63,7 @@ protected function requiresApprovalWhen(array $modifications) : bool
 ```
 
 ### Optional Attributes
+
 Approval models come with a few optional attributes to make your approval process as flexible as possible. The following attributes are define by default with the set defaults, you may alter them per model as you please.
 
 ```php
@@ -106,6 +111,7 @@ protected $deleteWhenApproved = true;
 ```
 
 ## Setup Approver Model(s)
+
 Any other model (not just a user model) can approve models by simply adding the `ApprovesChanges` trait to it, for example:
 
 ```php
@@ -117,11 +123,12 @@ class Admin extends Model
     use ApprovesChanges;
 }
 ```
+
 Any model with the `ApprovesChanges` trait inherits the approval access function.
 
 ### Approver Authorization (Optional)
-By default, any model with the `ApprovesChanges` trait will be able to approve and disapprove modifications. You can customize your authorization to approve/disapprove modifications however you please by adding the `authorizedToApprove` method on the specific approver model:
 
+By default, any model with the `ApprovesChanges` trait will be able to approve and disapprove modifications. You can customize your authorization to approve/disapprove modifications however you please by adding the `authorizedToApprove` method on the specific approver model:
 
 ```php
 use Approval\Traits\ApprovesChanges;
@@ -139,8 +146,8 @@ class Admin extends Model
 }
 ```
 
-
 ### Disapprover Authorization (Optional)
+
 Similarly to the approval process, the disapproval authorization method for disapproving modifications follows the same logic:
 
 ```php
@@ -168,6 +175,7 @@ class Admin extends Model
 # Usage
 
 ## Retrieving Pending Modifications
+
 Any model that contains the `RequiresApproval` trait may have multiple pending modifications, to access these modifications you can call the `modifications()` method on the approval model:
 
 ```php
@@ -176,41 +184,96 @@ $post->modifications()->get();
 ```
 
 ## Retrieving Modification Creator
+
 For any pending modifications on a model, you may fetch the model that initiated the modification request:
 
 ```php
 $post = Post::find(1);
 $post->modifications()->first()->modifier();
 ```
+
 This (modifier) would usually be a user that changed the model and triggered the approval modification, but because Approval caters for more than just users, it's possible that the creator is any other model.
 
 ## Adding an Approval
-TBD
+
+```php
+$modification = Post::find(1)->modifications()->first();
+
+$approver = Admin::first();
+$approver->approve($modification);
+```
 
 ## Adding a Disapproval
-TBD
+```php
+$modification = Post::find(1)->modifications()->first();
+
+$approver = Admin::first();
+$approver->approve($modification);
+```
+
+## Retrieving Pending Modifications
+
+```php
+$modifications = Post::find(1)->modifications()->whereActive(true)->get();
+```
 
 ## Retrieving Approvals
-TBD
+
+```php
+$post         = Post::find(1);
+$modification = $post->modifications()->first();
+$approval     = $modification->approvals()->get();
+```
 
 ## Retrieving Approval Author
-TBD
+
+```php
+$post         = Post::find(1);
+$modification = $post->modifications()->first();
+$approval     = $modification->approvals()->get();
+$author       = $approval->approver();
+```
 
 ## Retrieving Disapprovals
-TBD
+
+```php
+$post         = Post::find(1);
+$modification = $post->modifications()->first();
+$approval     = $modification->disapprovals()->get();
+```
 
 ## Retrieving Disapproval Author
-TBD
+
+```php
+$post         = Post::find(1);
+$modification = $post->modifications()->first();
+$approval     = $modification->disapprovals()->get();
+$author       = $approval->disapprover();
+```
+
 
 ## Retrieving Remaining Required Approvals
-TBD
+
+```php
+$post         = Post::find(1);
+$modification = $post->modifications()->first();
+$remaining    = $modification->approversRemaining;
+```
 
 ## Retrieving Remaining Required Disapprovals
-TBD
+
+```php
+$post         = Post::find(1);
+$modification = $post->modifications()->first();
+$remaining    = $modification->disapproversRemaining;
+```
+
 
 ## Forcing approval
+
 TBD
 
 # TODO
-- Prevent duplicate modification approvals being made where the changes are exactly the same
-- Add unit tests
+
+-   Prevent duplicate modification approvals being made where the changes are exactly the same
+-   Add unit tests
