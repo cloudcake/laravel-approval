@@ -194,10 +194,12 @@ $post->modifications()->first()->modifier();
 
 This (modifier) would usually be a user that changed the model and triggered the approval modification, but because Approval caters for more than just users, it's possible that the creator is any other model.
 
-## Retrieving A Models Modifications
+## Retrieving A Model's Modifications
 
 ```php
-$modifications = Post::find(1)->modifications()->whereActive(true)->get();
+$active = Post::find(1)->modifications()->activeOnly()->get();
+$inactive = Post::find(1)->modifications()->inactiveOnly()->get();
+$any = Post::find(1)->modifications()->get();
 ```
 
 ## Adding a Modification Approval
