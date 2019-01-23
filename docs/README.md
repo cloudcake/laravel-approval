@@ -16,7 +16,7 @@ composer require stephenlake/laravel-approval
 
 ## Register the service provider
 
-This package makes use of Laravel's auto-discovery of service providers. If you are an using earlier version of Laravel (&lt; 5.4) you will need to manually register the service provider.
+This package makes use of Laravel's auto-discovery. If you are an using earlier version of Laravel (&lt; 5.4) you will need to manually register the service provider.
 
 Add `Approval\ApprovalServiceProvider::class` to the `providers` array in `config/app.php`.
 
