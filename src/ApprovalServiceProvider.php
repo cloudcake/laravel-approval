@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 class ApprovalServiceProvider extends ServiceProvider
 {
     /**
-     * Boot up Shovel.
+     * Boot up Approval.
      *
      * @return void
      */
@@ -17,7 +17,7 @@ class ApprovalServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register Properties migrations.
+     * Register Approval migrations.
      *
      * @return void
      */
