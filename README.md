@@ -13,7 +13,7 @@
 <a href="https://github.com/stephenlake/laravel-approval/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt=""></a>
 <a href="https://packagist.org/packages/stephenlake/laravel-shovel">
 <img src="https://img.shields.io/packagist/dt/stephenlake/laravel-approval.svg?style=flat-square" alt="">
-    </a>
+</a>
 </p>
 
 <br><br>
