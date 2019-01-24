@@ -5,52 +5,50 @@ namespace Approval\Traits;
 trait RequiresApproval
 {
     /**
-    * Number of approvers this model requires in order
-    * to mark the modifications as accepted.
-    *
-    * @var integer
-    */
+     * Number of approvers this model requires in order
+     * to mark the modifications as accepted.
+     *
+     * @var int
+     */
     protected $approversRequired = 1;
 
     /**
-    * Number of disapprovers this model requires in order
-    * to mark the modifications as rejected.
-    *
-    * @var integer
-    */
+     * Number of disapprovers this model requires in order
+     * to mark the modifications as rejected.
+     *
+     * @var int
+     */
     protected $disapproversRequired = 1;
 
     /**
-    * Boolean to mark whether or not this model should be updated
-    * automatically upon receiving the required number of approvals.
-    *
-    * @var boolean
-    */
+     * Boolean to mark whether or not this model should be updated
+     * automatically upon receiving the required number of approvals.
+     *
+     * @var bool
+     */
     protected $updateWhenApproved = true;
 
     /**
-    * Boolean to mark whether or not the approval model should be deleted
-    * automatically when the approval is disapproved wtih the required number
-    * of disapprovals.
-    *
-    * @var boolean
-    */
+     * Boolean to mark whether or not the approval model should be deleted
+     * automatically when the approval is disapproved wtih the required number
+     * of disapprovals.
+     *
+     * @var bool
+     */
     protected $deleteWhenDisapproved = false;
 
     /**
-    * Boolean to mark whether or not the approval model should be deleted
-    * automatically when the approval is approved wtih the required number
-    * of approvals.
-    *
-    * @var boolean
-    */
+     * Boolean to mark whether or not the approval model should be deleted
+     * automatically when the approval is approved wtih the required number
+     * of approvals.
+     *
+     * @var bool
+     */
     protected $deleteWhenApproved = true;
 
-
     /**
-    * Boot the RequiresApproval trait. Listen for events and perform logic.
-    *
-    */
+     * Boot the RequiresApproval trait. Listen for events and perform logic.
+     */
     public static function bootRequiresApproval()
     {
         static::updating(function ($item) {
@@ -100,44 +98,44 @@ trait RequiresApproval
         });
     }
 
-
     /**
-    * Function that defines the rule of when an approval process
-    * should be actioned for this model.
-    *
-    * @param array $modifications
-    * @return boolean
-    */
+     * Function that defines the rule of when an approval process
+     * should be actioned for this model.
+     *
+     * @param array $modifications
+     *
+     * @return bool
+     */
     protected function requiresApprovalWhen($modifications) : bool
     {
         return true;
     }
 
     /**
-    * Return Modification relations via moprhMany.
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-    */
+     * Return Modification relations via moprhMany.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
     public function modifications()
     {
         return $this->morphMany(\Approval\Models\Modification::class, 'modifiable');
     }
 
     /**
-    * Returns the model that should be used as the modifier of the modified model.
-    *
-    * @return mixed
-    */
+     * Returns the model that should be used as the modifier of the modified model.
+     *
+     * @return mixed
+     */
     protected function modifier()
     {
         return auth()->user();
     }
 
     /**
-    * Apply modification to model.
-    *
-    * @return void
-    */
+     * Apply modification to model.
+     *
+     * @return void
+     */
     public function applyModificationChanges(\Approval\Models\Modification $modification, bool $approved)
     {
         if ($approved && $this->updateWhenApproved) {
