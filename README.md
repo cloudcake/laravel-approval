@@ -6,6 +6,16 @@
     Attach modification approvals to any model to prevent unauthorised updates.
 </h6>
 
+<p align="center">
+<a href="https://travis-ci.org/stephenlake/laravel-approval"><img src="https://img.shields.io/travis/stephenlake/laravel-approval/master.svg?style=flat-square" alt=""></a>
+<a href="https://github.styleci.io/repos/166599210"><img src="https://github.styleci.io/repos/166599210/shield?branch=master&style=flat-square" alt=""></a>
+<a href="https://github.com/stephenlake/laravel-approval"><img src="https://img.shields.io/github/release/stephenlake/laravel-approval.svg?style=flat-square" alt=""></a>
+<a href="https://github.com/stephenlake/laravel-approval/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt=""></a>
+<a href="https://packagist.org/packages/stephenlake/laravel-shovel">
+<img src="https://img.shields.io/packagist/dt/stephenlake/laravel-approval.svg?style=flat-square" alt="">
+</a>
+</p>
+
 <br><br>
 
 # Laravel Approval
