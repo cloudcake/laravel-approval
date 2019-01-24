@@ -10,6 +10,6 @@ class SpecialUser extends Model
       'firstname',
       'lastname',
       'email',
-      'birth_at'
+      'birth_at',
     ];
 }
