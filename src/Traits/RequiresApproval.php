@@ -52,7 +52,7 @@ trait RequiresApproval
      *
      * @var bool
      */
-    protected $forcedApprovalUpdate = false;
+    private $forcedApprovalUpdate = false;
 
     /**
      * Boot the RequiresApproval trait. Listen for events and perform logic.
@@ -60,7 +60,7 @@ trait RequiresApproval
     public static function bootRequiresApproval()
     {
         static::updating(function ($item) {
-            if (!isset($item->forcedApprovalUpdate) && $item->requiresApprovalWhen($item->getDirty()) === true) {
+            if (!$item->isForcedApprovalUpdate() && $item->requiresApprovalWhen($item->getDirty()) === true) {
                 $diff = collect($item->getDirty())
                         ->transform(function ($change, $key) use ($item) {
                             return [
@@ -97,10 +97,10 @@ trait RequiresApproval
                     $item->modifications()->save($modification);
                 }
 
+                $item->setForcedUpdate(false);
+
                 return false;
             }
-
-            unset($item->forcedApprovalUpdate);
 
             return true;
         });
@@ -147,7 +147,7 @@ trait RequiresApproval
     public function applyModificationChanges(\Approval\Models\Modification $modification, bool $approved)
     {
         if ($approved && $this->updateWhenApproved) {
-            $this->forcedApprovalUpdate = true;
+            $this->setForcedApprovalUpdate(true);
 
             foreach ($modification->modifications as $key => $mod) {
                 $this->{$key} = $mod['modified'];
@@ -169,6 +169,26 @@ trait RequiresApproval
                 $modification->save();
             }
         }
+    }
+
+    /**
+     * Returns true if the model is being force updated.
+     *
+     * @return bool
+     */
+    public function isForcedApprovalUpdate()
+    {
+        return $this->forcedApprovalUpdate;
+    }
+
+    /**
+     * Setter for forcedApprovalUpdate.
+     *
+     * @return bool
+     */
+    public function setForcedApprovalUpdate($forced = true)
+    {
+        return $this->forcedApprovalUpdate = $forced;
     }
 
     /**
