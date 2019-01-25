@@ -47,6 +47,14 @@ trait RequiresApproval
     protected $deleteWhenApproved = true;
 
     /**
+     * Boolean to mark whether or not the approval model should be saved
+     * forcefully.
+     *
+     * @var bool
+     */
+    protected $forcedApprovalUpdate = false;
+
+    /**
      * Boot the RequiresApproval trait. Listen for events and perform logic.
      */
     public static function bootRequiresApproval()
@@ -154,7 +162,7 @@ trait RequiresApproval
                 $modification->save();
             }
         } elseif ($approved == false) {
-            if ($this->deleteWhenDispproved) {
+            if ($this->deleteWhenDisapproved) {
                 $modification->delete();
             } else {
                 $modification->active = false;
@@ -162,4 +170,6 @@ trait RequiresApproval
             }
         }
     }
+
+    abstract public function save();
 }
