@@ -171,5 +171,10 @@ trait RequiresApproval
         }
     }
 
+    /**
+     * Abstract save.
+     *
+     * @return mixed
+     */
     abstract public function save();
 }
