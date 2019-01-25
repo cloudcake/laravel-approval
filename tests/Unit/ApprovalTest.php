@@ -2,11 +2,9 @@
 
 namespace Approval\Tests\Unit;
 
-use Approval\Tests\TestCase;
-use Approval\Tests\Models\Admin;
-use Approval\Tests\Models\User;
 use Approval\Tests\Models\Post;
-use Approval\Tests\Models\Comment;
+use Approval\Tests\Models\User;
+use Approval\Tests\TestCase;
 
 class ApprovalTest extends TestCase
 {

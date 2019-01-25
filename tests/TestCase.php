@@ -2,12 +2,12 @@
 
 namespace Approval\Tests;
 
+use Approval\Tests\Models\Admin;
+use Approval\Tests\Models\Comment;
+use Approval\Tests\Models\Post;
+use Approval\Tests\Models\User;
 use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Approval\Tests\Models\Admin;
-use Approval\Tests\Models\User;
-use Approval\Tests\Models\Post;
-use Approval\Tests\Models\Comment;
 
 abstract class TestCase extends BaseTestCase
 {
