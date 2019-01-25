@@ -41,7 +41,7 @@ trait ApprovesChanges
     {
         if ($this->authorizedToApprove($modification)) {
 
-          // Prevent disapproving and approving
+            // Prevent disapproving and approving
             if ($disapproval = $this->disapprovals()->where([
                 'disapprover_id'   => $this->{$this->primaryKey},
                 'disapprover_type' => get_class(),
