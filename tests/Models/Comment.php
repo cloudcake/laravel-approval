@@ -3,13 +3,13 @@
 namespace Approval\Tests\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Approval\Traits\RequiresApproval;
 
-class SpecialUser extends Model
+class Comment extends Model
 {
+    use RequiresApproval;
+    
     protected $fillable = [
-      'firstname',
-      'lastname',
-      'email',
-      'birth_at',
+      'content',
     ];
 }

@@ -4,6 +4,10 @@ namespace Approval\Tests;
 
 use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use Approval\Tests\Models\Admin;
+use Approval\Tests\Models\User;
+use Approval\Tests\Models\Post;
+use Approval\Tests\Models\Comment;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -12,6 +16,38 @@ abstract class TestCase extends BaseTestCase
         parent::setup();
 
         $this->app->setBasePath(__DIR__.'/../');
+
+        $this->artisan('migrate');
+
+        Schema::create('admins', function ($table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->timestamps();
+        });
+
+        Schema::create('users', function ($table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->timestamps();
+        });
+
+        Schema::create('comments', function ($table) {
+            $table->increments('id');
+            $table->string('content');
+            $table->timestamps();
+        });
+
+        Schema::create('posts', function ($table) {
+            $table->increments('id');
+            $table->string('title');
+            $table->string('content');
+            $table->timestamps();
+        });
+
+        Comment::create(['content' => 'Whiskey Tango Foxtrot']);
+        Post::create(['title' => 'Hello World', 'content' => 'Whiskey Tango Foxtrot']);
+        Admin::create(['name' => 'John Doe']);
+        User::create(['name' => 'Jane Doe']);
     }
 
     protected function getPackageProviders($app)
@@ -29,14 +65,5 @@ abstract class TestCase extends BaseTestCase
             'database' => ':memory:',
             'prefix'   => '',
         ]);
-
-        Schema::dropIfExists('special_users');
-        Schema::create('special_users', function ($table) {
-            $table->increments('id');
-            $table->string('firstname');
-            $table->string('lastname');
-            $table->timestamp('birth_dat');
-            $table->timestamps();
-        });
     }
 }
