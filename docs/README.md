@@ -278,6 +278,3 @@ $post         = Post::find(1);
 $modification = $post->modifications()->first();
 $modification->forceApprovalUpdate();
 ```
-
-# TODO
--   Add unit tests
