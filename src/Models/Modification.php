@@ -111,7 +111,7 @@ class Modification extends Model
      */
     public function forceApprovalUpdate()
     {
-        $this->modifiable->applyModificationChanges($modification, true);
+        $this->modifiable->applyModificationChanges($this, true);
     }
 
     /**
