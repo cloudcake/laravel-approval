@@ -12,7 +12,7 @@ trait ApprovesChanges
      *
      * @return bool
      */
-    protected function authorizedToApprove(\Approval\Models\Modification $modification) : bool
+    protected function authorizedToApprove(/** @scrutinizer ignore-unused */ \Approval\Models\Modification $modification) : bool
     {
         return true;
     }
@@ -25,7 +25,7 @@ trait ApprovesChanges
      *
      * @return bool
      */
-    protected function authorizedToDisapprove(\Approval\Models\Modification $modification) : bool
+    protected function authorizedToDisapprove(/** @scrutinizer ignore-unused */ \Approval\Models\Modification $modification) : bool
     {
         return true;
     }
@@ -115,7 +115,7 @@ trait ApprovesChanges
      */
     public function approvals()
     {
-        return $this->morphMany(\Approval\Models\Approval::class, 'approver');
+        return $this->/** @scrutinizer ignore-call */ morphMany(\Approval\Models\Approval::class, 'approver');
     }
 
     /**
@@ -125,6 +125,6 @@ trait ApprovesChanges
      */
     public function disapprovals()
     {
-        return $this->morphMany(\Approval\Models\Disapproval::class, 'disapprover');
+        return $this->/** @scrutinizer ignore-call */ morphMany(\Approval\Models\Disapproval::class, 'disapprover');
     }
 }
