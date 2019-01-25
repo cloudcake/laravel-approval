@@ -161,7 +161,7 @@ trait RequiresApproval
                 $modification->active = false;
                 $modification->save();
             }
-        } elseif ($approved == false) {
+        } elseif ($approved === false) {
             if ($this->deleteWhenDisapproved) {
                 $modification->delete();
             } else {
