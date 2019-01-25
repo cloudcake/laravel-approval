@@ -97,7 +97,7 @@ trait RequiresApproval
                     $item->modifications()->save($modification);
                 }
 
-                $item->setForcedUpdate(false);
+                $item->setForcedApprovalUpdate(false);
 
                 return false;
             }
