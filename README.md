@@ -1,5 +1,5 @@
 <h6 align="center">
-    <img src="https://raw.githubusercontent.com/stephenlake/laravel-approval/master/docs/assets/laravel-approval-banner.png"/>
+    <img src="https://raw.githubusercontent.com/stephenlake/laravel-approval/master/docs/assets/laravel-approval-banner.png?v=2"/>
 </h6>
 
 <h6 align="center">
