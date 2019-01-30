@@ -20,6 +20,10 @@ This package makes use of Laravel's auto-discovery. If you are an using earlier 
 
 Add `Approval\ApprovalServiceProvider::class` to the `providers` array in `config/app.php`.
 
+## Publish configuration
+
+`php artisan vendor:publish --provider="Approval\ApprovalServiceProvider" --tag="config"`
+
 ## Publish migrations
 
 `php artisan vendor:publish --provider="Approval\ApprovalServiceProvider" --tag="migrations"`
