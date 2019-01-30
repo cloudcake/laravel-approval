@@ -17,6 +17,8 @@ abstract class TestCase extends BaseTestCase
 
         $this->app->setBasePath(__DIR__.'/../');
 
+        $this->loadMigrationsFrom(__DIR__.'/../src/Migrations');
+
         $this->artisan('migrate');
 
         Schema::create('admins', function ($table) {
