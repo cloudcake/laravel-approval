@@ -49,7 +49,7 @@ class Modification extends Model
      */
     public function approvals()
     {
-        return $this->hasMany(\Approval\Models\Approval::class);
+        return $this->hasMany(config('approval.models.approval', \Approval\Models\Approval::class));
     }
 
     /**
@@ -59,7 +59,7 @@ class Modification extends Model
      */
     public function disapprovals()
     {
-        return $this->hasMany(\Approval\Models\Disapproval::class);
+        return $this->hasMany(config('approval.models.disapproval', \Approval\Models\Disapproval::class));
     }
 
     /**

@@ -30,6 +30,6 @@ class Disapproval extends Model
      */
     public function modification()
     {
-        return $this->belongsTo(\Approval\Models\Modification::class);
+        return $this->belongsTo(config('approval.models.modification', \Approval\Models\Modification::class));
     }
 }
