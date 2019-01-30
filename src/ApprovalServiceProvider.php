@@ -13,7 +13,20 @@ class ApprovalServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerConfigurations();
         $this->registerMigrations();
+    }
+
+    /**
+     * Register Approval configs.
+     *
+     * @return void
+     */
+    private function registerConfigurations()
+    {
+        $this->publishes([
+            __DIR__.'/Config/config.php' => config_path('approval.php'),
+        ], 'config');
     }
 
     /**
