@@ -77,7 +77,9 @@ trait RequiresApproval
 
                 $modifier = $item->modifier();
 
-                $modification = $hasModificationPending ?? new \Approval\Models\Modification();
+                $modificationModel = config('approval.models.modification', \Approval\Models\Modification::class);
+
+                $modification = $hasModificationPending ?? new $modificationModel();
                 $modification->active = true;
                 $modification->modifications = $diff;
                 $modification->approvers_required = $item->approversRequired;
@@ -126,7 +128,7 @@ trait RequiresApproval
      */
     public function modifications()
     {
-        return $this->morphMany(\Approval\Models\Modification::class, 'modifiable');
+        return $this->morphMany(config('approval.models.modification', \Approval\Models\Modification::class), 'modifiable');
     }
 
     /**

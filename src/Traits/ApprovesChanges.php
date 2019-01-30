@@ -51,7 +51,8 @@ trait ApprovesChanges
             }
 
             // Prevent duplicates
-            \Approval\Models\Approval::firstOrCreate([
+            $approvalModel = config('approval.models.approval', \Approval\Models\Approval::class);
+            $approvalModel::firstOrCreate([
                 'approver_id'     => $this->{$this->primaryKey},
                 'approver_type'   => get_class(),
                 'modification_id' => $modification->id,
@@ -90,7 +91,8 @@ trait ApprovesChanges
             }
 
             // Prevent duplicates
-            \Approval\Models\Disapproval::firstOrCreate([
+            $disapprovalModel = config('approval.models.disapproval', \Approval\Models\Disapproval::class);
+            $disapprovalModel::firstOrCreate([
                 'disapprover_id'   => $this->{$this->primaryKey},
                 'disapprover_type' => get_class(),
                 'modification_id'  => $modification->id,
