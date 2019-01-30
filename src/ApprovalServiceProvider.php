@@ -23,6 +23,10 @@ class ApprovalServiceProvider extends ServiceProvider
      */
     private function registerMigrations()
     {
+        $this->publishes([
+            __DIR__.'/Migrations' => database_path('migrations'),
+        ], 'migrations');
+
         $this->loadMigrationsFrom(__DIR__.'/Migrations');
     }
 }
