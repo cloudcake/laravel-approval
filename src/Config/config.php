@@ -18,6 +18,6 @@ return [
       'modification' => \Approval\Models\Modification::class,
       'approval'     => \Approval\Models\Approval::class,
       'disapproval'  => \Approval\Models\Disapproval::class,
-    ]
-    
+    ],
+
 ];
