@@ -191,6 +191,20 @@ $post = Post::find(1);
 $post->modifications()->get();
 ```
 
+## Retrieving Only Pending Creations
+
+```php
+$post = Post::find(1);
+$post->modifications()->creations()->get();
+```
+
+## Retrieving Only Pending Changes
+
+```php
+$post = Post::find(1);
+$post->modifications()->changed()->get();
+```
+
 ## Retrieving Modification Creator
 
 For any pending modifications on a model, you may fetch the model that initiated the modification request:
