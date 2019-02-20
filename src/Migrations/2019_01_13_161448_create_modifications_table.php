@@ -20,6 +20,7 @@ class CreateModificationsTable extends Migration
             $table->integer('modifier_id')->nullable();
             $table->string('modifier_type')->nullable();
             $table->boolean('active')->default(true);
+            $table->boolean('is_update')->default(true);
             $table->integer('approvers_required')->default(1);
             $table->integer('disapprovers_required')->default(1);
             $table->string('md5');

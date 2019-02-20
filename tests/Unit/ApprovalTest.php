@@ -2,13 +2,14 @@
 
 namespace Approval\Tests\Unit;
 
+use Approval\Models\Modification;
 use Approval\Tests\Models\Post;
 use Approval\Tests\Models\User;
 use Approval\Tests\TestCase;
 
 class ApprovalTest extends TestCase
 {
-    public function testApprovalProcessCreated()
+    public function testApprovalProcessCreatedOnUpdate()
     {
         auth()->login(User::first());
 
@@ -17,16 +18,41 @@ class ApprovalTest extends TestCase
         $originalTitle = $post->title;
         $originalContent = $post->content;
 
-        $post->title = 'Something New';
-        $post->content = 'Something Bold';
+        $newTitle = 'Trigger Approval';
+        $newContent = 'Something Bold';
+
+        $post->title = $newTitle;
+        $post->content = $newContent;
         $post->save();
         $post->refresh();
 
-        $this->assertTrue($post->title != 'Something New');
+        $modification = $post->modifications()->first();
+
+        $this->assertTrue($post->title != $newTitle);
         $this->assertTrue($post->modifications()->count() === 1);
-        $this->assertTrue($post->modifications()->first()->modifications['title']['original'] == $originalTitle);
-        $this->assertTrue($post->modifications()->first()->modifications['content']['original'] == $originalContent);
-        $this->assertTrue($post->modifications()->first()->modifications['title']['modified'] == 'Something New');
-        $this->assertTrue($post->modifications()->first()->modifications['content']['modified'] == 'Something Bold');
+        $this->assertTrue($modification->modifications['title']['original'] == $originalTitle);
+        $this->assertTrue($modification->modifications['content']['original'] == $originalContent);
+        $this->assertTrue($modification->modifications['title']['modified'] == $newTitle);
+        $this->assertTrue($modification->modifications['content']['modified'] == $newContent);
+    }
+
+    public function testApprovalProcessCreatedOnCreate()
+    {
+        auth()->login(User::first());
+
+        $post = Post::create([
+          'title' => 'Trigger Approval',
+          'content' => 'Sweet Carrot'
+        ]);
+
+        $post->refresh();
+
+        $modification = Modification::creations()->first();
+
+        $this->assertTrue($modification->modifications['title']['original'] == null);
+        $this->assertTrue($modification->modifications['content']['original'] == null);
+        $this->assertTrue($modification->modifications['title']['modified'] == $post->title);
+        $this->assertTrue($modification->modifications['content']['modified'] == $post->content);
+        $this->assertTrue($modification->modifiable_id == null);
     }
 }

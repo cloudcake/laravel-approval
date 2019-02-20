@@ -33,12 +33,6 @@ abstract class TestCase extends BaseTestCase
             $table->timestamps();
         });
 
-        Schema::create('comments', function ($table) {
-            $table->increments('id');
-            $table->string('content');
-            $table->timestamps();
-        });
-
         Schema::create('posts', function ($table) {
             $table->increments('id');
             $table->string('title');
@@ -46,7 +40,6 @@ abstract class TestCase extends BaseTestCase
             $table->timestamps();
         });
 
-        Comment::create(['content' => 'Whiskey Tango Foxtrot']);
         Post::create(['title' => 'Hello World', 'content' => 'Whiskey Tango Foxtrot']);
         Admin::create(['name' => 'John Doe']);
         User::create(['name' => 'Jane Doe']);

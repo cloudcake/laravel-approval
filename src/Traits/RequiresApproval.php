@@ -59,47 +59,9 @@ trait RequiresApproval
      */
     public static function bootRequiresApproval()
     {
-        static::updating(function ($item) {
+        static::saving(function ($item) {
             if (!$item->isForcedApprovalUpdate() && $item->requiresApprovalWhen($item->getDirty()) === true) {
-                $diff = collect($item->getDirty())
-                        ->transform(function ($change, $key) use ($item) {
-                            return [
-                              'original' => $item->getOriginal($key),
-                              'modified' => $item->$key,
-                            ];
-                        })
-                        ->all();
-
-                $hasModificationPending = $item->modifications()
-                                               ->activeOnly()
-                                               ->where('md5', md5(json_encode($diff)))
-                                               ->first();
-
-                $modifier = $item->modifier();
-
-                $modificationModel = config('approval.models.modification', \Approval\Models\Modification::class);
-
-                $modification = $hasModificationPending ?? new $modificationModel();
-                $modification->active = true;
-                $modification->modifications = $diff;
-                $modification->approvers_required = $item->approversRequired;
-                $modification->disapprovers_required = $item->disapproversRequired;
-                $modification->md5 = md5(json_encode($diff));
-
-                if ($modifier && ($modifierClass = get_class($modifier))) {
-                    $modifierInstance = new $modifierClass();
-
-                    $modification->modifier_id = $modifier->{$modifierInstance->getKeyName()};
-                    $modification->modifier_type = $modifierClass;
-                }
-
-                $modification->save();
-
-                if (!$hasModificationPending) {
-                    $item->modifications()->save($modification);
-                }
-
-                return false;
+                return self::captureSave($item);
             }
 
             $item->setForcedApprovalUpdate(false);
@@ -193,10 +155,49 @@ trait RequiresApproval
         return $this->forcedApprovalUpdate = $forced;
     }
 
-    /**
-     * Abstract save.
-     *
-     * @return mixed
-     */
-    abstract public function save();
+    public static function captureSave($item)
+    {
+        $diff = collect($item->getDirty())
+                  ->transform(function ($change, $key) use ($item) {
+                      return [
+                        'original' => $item->getOriginal($key),
+                        'modified' => $item->$key,
+                      ];
+                  })->all();
+
+        $hasModificationPending = $item->modifications()
+                                       ->activeOnly()
+                                       ->where('md5', md5(json_encode($diff)))
+                                       ->first();
+
+        $modifier = $item->modifier();
+
+        $modificationModel = config('approval.models.modification', \Approval\Models\Modification::class);
+
+        $modification = $hasModificationPending ?? new $modificationModel();
+        $modification->active = true;
+        $modification->modifications = $diff;
+        $modification->approvers_required = $item->approversRequired;
+        $modification->disapprovers_required = $item->disapproversRequired;
+        $modification->md5 = md5(json_encode($diff));
+
+        if ($modifier && ($modifierClass = get_class($modifier))) {
+            $modifierInstance = new $modifierClass();
+
+            $modification->modifier_id = $modifier->{$modifierInstance->getKeyName()};
+            $modification->modifier_type = $modifierClass;
+        }
+
+        if (is_null($item->{$item->getKeyName()})) {
+            $modification->is_update = false;
+        }
+
+        $modification->save();
+
+        if (!$hasModificationPending) {
+            $item->modifications()->save($modification);
+        }
+
+        return false;
+    }
 }

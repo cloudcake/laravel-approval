@@ -115,7 +115,7 @@ class Modification extends Model
     }
 
     /**
-     * Scope a query to only include active modifications.
+     * Scope to only include active modifications.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *
@@ -127,7 +127,7 @@ class Modification extends Model
     }
 
     /**
-     * Scope a query to only include inactive modifications.
+     * Scope to only include inactive modifications.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      *
@@ -136,5 +136,29 @@ class Modification extends Model
     public function scopeInactiveOnly($query)
     {
         return $query->where('active', false);
+    }
+
+    /**
+     * Scope to only retrieve changed models.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeChanges($query)
+    {
+        return $query->where('is_update', true);
+    }
+
+    /**
+     * Scope to only retrieve created models.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCreations($query)
+    {
+        return $query->where('is_update', false);
     }
 }
