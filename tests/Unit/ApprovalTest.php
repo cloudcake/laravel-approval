@@ -41,8 +41,8 @@ class ApprovalTest extends TestCase
         auth()->login(User::first());
 
         $post = Post::create([
-          'title' => 'Trigger Approval',
-          'content' => 'Sweet Carrot'
+          'title'   => 'Trigger Approval',
+          'content' => 'Sweet Carrot',
         ]);
 
         $post->refresh();
