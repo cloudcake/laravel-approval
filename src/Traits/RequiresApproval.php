@@ -80,7 +80,7 @@ trait RequiresApproval
      */
     protected function requiresApprovalWhen($modifications) : bool
     {
-        return true;
+        return false;
     }
 
     /**
