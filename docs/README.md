@@ -48,11 +48,9 @@ class Post extends Model
 }
 ```
 
-Once added, by default any updates made to the model will have to be approved by at least 1 approver for the modifications to be actioned.
-
 ### Conditional Approvals
 
-There may be instances where you don't always want your model to go through an approval process, for this reason the the `requiresApprovalWhen` is available for your convenience:
+There may be instances where you don't always want your model to go through an approval process, for this reason the the `requiresApprovalWhen` is available for your convenience and defaults to false so that no unintended approvals are created behind the scenes:
 
 ```php
 /**
@@ -66,7 +64,10 @@ There may be instances where you don't always want your model to go through an a
 protected function requiresApprovalWhen(array $modifications) : bool
 {
     // Handle some logic that determines if this change requires approval
-    return true;
+    //
+    // Return true if the model requires approval, return false if it 
+    // should update immediately without approval.
+    return false;
 }
 ```
 
