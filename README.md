@@ -15,7 +15,7 @@ Made with ❤️ by [Stephen Lake](http://stephenlake.github.io/)
 
 Install the package via composer.
 
-    composer require stephenlake/laravel-approval
+    composer require cloudcake/laravel-approval
 
 #### See [documentation](https://stephenlake.github.io/laravel-approval/) for usage.
 
