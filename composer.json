@@ -1,5 +1,5 @@
 {
-  "name": "stephenlake/laravel-approval",
+  "name": "cloudcake/laravel-approval",
   "description": "Attach approvals to any model to prevent unauthorised updates.",
   "type": "library",
   "license": "MIT",
