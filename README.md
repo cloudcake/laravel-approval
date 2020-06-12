@@ -16,7 +16,7 @@ Install the package via composer.
 
     composer require cloudcake/laravel-approval
 
-#### See [documentation](https://stephenlake.github.io/laravel-approval/) for usage.
+#### See [documentation](https://cloudcake.github.io/laravel-approval/) for usage.
 
 ## License
 
