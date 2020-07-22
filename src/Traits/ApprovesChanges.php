@@ -61,7 +61,12 @@ trait ApprovesChanges
             $modification->fresh();
 
             if ($modification->approversRemaining == 0) {
-                $modification->modifiable->applyModificationChanges($modification, true);
+                if($modification->modifiable_id === null) {
+                    $polymorphicModel = new $modification->modifiable_type();
+                    $polymorphicModel->applyModificationChanges($modification, true);
+                } else {
+                    $modification->modifiable->applyModificationChanges($modification, true);
+                }
             }
 
             return true;
