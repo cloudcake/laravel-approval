@@ -2,6 +2,9 @@
 
 namespace Approval\Traits;
 
+use Approval\Models\Modification;
+use Illuminate\Database\Eloquent\Collection;
+
 trait RequiresApproval
 {
     /**
@@ -91,6 +94,16 @@ trait RequiresApproval
     public function modifications()
     {
         return $this->morphMany(config('approval.models.modification', \Approval\Models\Modification::class), 'modifiable');
+    }
+
+    /**
+     * Return collection of creations for the current model
+     *
+     * @return Collection
+     */
+    public static function creations(){
+        $modificationClass = config('approval.models.modification', \Approval\Models\Modification::class);
+        return $modificationClass::whereModifiableType(static::class)->whereIsUpdate(false)->get();
     }
 
     /**
