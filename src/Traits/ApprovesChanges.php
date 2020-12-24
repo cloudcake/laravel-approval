@@ -12,7 +12,7 @@ trait ApprovesChanges
      *
      * @return bool
      */
-    protected function authorizedToApprove(/* @scrutinizer ignore-unused */ \Approval\Models\Modification $modification) : bool
+    protected function authorizedToApprove(/* @scrutinizer ignore-unused */\Approval\Models\Modification $modification): bool
     {
         return true;
     }
@@ -25,7 +25,7 @@ trait ApprovesChanges
      *
      * @return bool
      */
-    protected function authorizedToDisapprove(/* @scrutinizer ignore-unused */ \Approval\Models\Modification $modification) : bool
+    protected function authorizedToDisapprove(/* @scrutinizer ignore-unused */\Approval\Models\Modification $modification): bool
     {
         return true;
     }
@@ -33,11 +33,12 @@ trait ApprovesChanges
     /**
      * Approve a modification.
      *
+     * @param string|null $reason
      * @param \Approval\Models\Modification $modification
      *
      * @return bool
      */
-    public function approve(\Approval\Models\Modification $modification) : bool
+    public function approve(\Approval\Models\Modification $modification, ?string $reason = null): bool
     {
         if ($this->authorizedToApprove($modification)) {
 
@@ -56,12 +57,13 @@ trait ApprovesChanges
                 'approver_id'     => $this->{$this->primaryKey},
                 'approver_type'   => get_class(),
                 'modification_id' => $modification->id,
+                'reason' => $reason
             ]);
 
             $modification->fresh();
 
             if ($modification->approversRemaining == 0) {
-                if($modification->modifiable_id === null) {
+                if ($modification->modifiable_id === null) {
                     $polymorphicModel = new $modification->modifiable_type();
                     $polymorphicModel->applyModificationChanges($modification, true);
                 } else {
@@ -78,11 +80,12 @@ trait ApprovesChanges
     /**
      * Disapprove a modification.
      *
+     * @param string|null $reason
      * @param \Approval\Models\Modification $modification
      *
      * @return bool
      */
-    public function disapprove(\Approval\Models\Modification $modification) : bool
+    public function disapprove(\Approval\Models\Modification $modification, ?string $reason = null): bool
     {
         if ($this->authorizedToDisapprove($modification)) {
 
@@ -101,12 +104,18 @@ trait ApprovesChanges
                 'disapprover_id'   => $this->{$this->primaryKey},
                 'disapprover_type' => get_class(),
                 'modification_id'  => $modification->id,
+                'reason' => $reason
             ]);
 
             $modification->fresh();
 
             if ($modification->disapproversRemaining == 0) {
-                $modification->modifiable->applyModificationChanges($modification, false);
+                if ($modification->modifiable_id === null) {
+                    $polymorphicModel = new $modification->modifiable_type();
+                    $polymorphicModel->applyModificationChanges($modification, false);
+                } else {
+                    $modification->modifiable->applyModificationChanges($modification, false);
+                }
             }
 
             return true;
@@ -122,7 +131,7 @@ trait ApprovesChanges
      */
     public function approvals()
     {
-        return $this->/* @scrutinizer ignore-call */ morphMany(\Approval\Models\Approval::class, 'approver');
+        return $this->/* @scrutinizer ignore-call */morphMany(\Approval\Models\Approval::class, 'approver');
     }
 
     /**
@@ -132,6 +141,6 @@ trait ApprovesChanges
      */
     public function disapprovals()
     {
-        return $this->/* @scrutinizer ignore-call */ morphMany(\Approval\Models\Disapproval::class, 'disapprover');
+        return $this->/* @scrutinizer ignore-call */morphMany(\Approval\Models\Disapproval::class, 'disapprover');
     }
 }
