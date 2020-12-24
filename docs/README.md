@@ -65,7 +65,7 @@ protected function requiresApprovalWhen(array $modifications) : bool
 {
     // Handle some logic that determines if this change requires approval
     //
-    // Return true if the model requires approval, return false if it 
+    // Return true if the model requires approval, return false if it
     // should update immediately without approval.
     return false;
 }
@@ -229,17 +229,19 @@ $any = Post::find(1)->modifications()->get();
 
 ```php
 $modification = Post::find(1)->modifications()->first();
+$reason = "This is optional reason.";
 
 $approver = Admin::first();
-$approver->approve($modification);
+$approver->approve($modification, $reason);
 ```
 
 ## Adding a  Modification Disapproval
 ```php
 $modification = Post::find(1)->modifications()->first();
+$reason = "This is optional reason.";
 
 $approver = Admin::first();
-$approver->disapprove($modification);
+$approver->disapprove($modification, $reason);
 ```
 
 ## Retrieving Modification Approvals
@@ -259,6 +261,15 @@ $approval     = $modification->approvals()->get();
 $author       = $approval->approver();
 ```
 
+## Retrieving Approval Reason
+
+```php
+$post         = Post::find(1);
+$modification = $post->modifications()->first();
+$approval     = $modification->approvals()->get();
+$reason       = $approval->reason;
+```
+
 ## Retrieving Modification Disapprovals
 
 ```php
@@ -274,6 +285,15 @@ $post         = Post::find(1);
 $modification = $post->modifications()->first();
 $approval     = $modification->disapprovals()->get();
 $author       = $approval->disapprover();
+```
+
+## Retrieving disapproval Reason
+
+```php
+$post         = Post::find(1);
+$modification = $post->modifications()->first();
+$approval     = $modification->disapprovals()->get();
+$reason       = $approval->reason;
 ```
 
 

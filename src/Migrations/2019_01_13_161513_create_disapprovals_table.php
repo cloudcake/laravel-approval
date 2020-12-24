@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateDisapprovalsTable extends Migration
 {
@@ -18,6 +18,7 @@ class CreateDisapprovalsTable extends Migration
             $table->integer('modification_id');
             $table->integer('disapprover_id');
             $table->string('disapprover_type');
+            $table->text('reason')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
