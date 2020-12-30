@@ -266,7 +266,7 @@ $author       = $approval->approver();
 ```php
 $post         = Post::find(1);
 $modification = $post->modifications()->first();
-$approval     = $modification->approvals()->get();
+$approval     = $modification->approvals()->first();
 $reason       = $approval->reason;
 ```
 
@@ -292,7 +292,7 @@ $author       = $approval->disapprover();
 ```php
 $post         = Post::find(1);
 $modification = $post->modifications()->first();
-$approval     = $modification->disapprovals()->get();
+$approval     = $modification->disapprovals()->first();
 $reason       = $approval->reason;
 ```
 

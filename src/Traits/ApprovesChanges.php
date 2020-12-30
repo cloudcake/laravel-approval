@@ -33,8 +33,8 @@ trait ApprovesChanges
     /**
      * Approve a modification.
      *
-     * @param string|null $reason
      * @param \Approval\Models\Modification $modification
+     * @param string|null $reason
      *
      * @return bool
      */
@@ -80,8 +80,8 @@ trait ApprovesChanges
     /**
      * Disapprove a modification.
      *
-     * @param string|null $reason
      * @param \Approval\Models\Modification $modification
+     * @param string|null $reason
      *
      * @return bool
      */
