@@ -2,14 +2,12 @@
 
 namespace Approval\Tests\Models;
 
-use Approval\Traits\ApprovesChanges;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Approval\Traits\ApprovesChanges;
 
 class User extends Authenticatable
 {
-    use ApprovesChanges;
+  use ApprovesChanges;
 
-    protected $fillable = [
-      'name',
-    ];
+  protected $guarded = [];
 }
